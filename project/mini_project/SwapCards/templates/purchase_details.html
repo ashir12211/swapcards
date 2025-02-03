@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Card History</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: "Arial", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .history-container {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .history-container h1 {
+            font-size: 28px;
+            color: #eaff00;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+        }
+
+        .history-container h2 {
+            font-size: 22px;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+
+        .history-container p {
+            font-size: 18px;
+            margin: 12px 0;
+            line-height: 1.6;
+        }
+
+        .history-container .message {
+            margin-top: 25px;
+            font-size: 22px;
+            color: #039b1a;
+            font-weight: bold;
+        }
+
+        .back-home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #6a0dad;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .back-home-btn:hover {
+            background-color: #6a0dad;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <!-- Big Message -->
+        <h1>Hooray! Your order is here.</h1>   <!-- {{ card.giftcard_type }}   -->
+        
+        <!-- Gift Card Details -->
+        <h2>Gift Card Details</h2>
+        <p><strong>Gift Card Number:</strong> {{ card.card_number }}</p>
+        <p><strong>PIN:</strong> {{ card.pin }}</p>
+        <p><strong>Gift Card :</strong> {{ card.giftcard_type }}</p>
+        <p><strong>Expiry:</strong> {{ card.expiry }}</p>
+        <p><strong>Gift Card Balance:</strong> ₹{{ card.giftcard_balance }}</p>
+        
+        <!-- Success Message -->
+        <p class="message">{{ message }}</p>
+
+        <!-- Back to Home Button -->
+        <a href="{% url 'home' %}" class="back-home-btn">Back to Home Page</a>
+    </div>
+</body>
+</html>
+

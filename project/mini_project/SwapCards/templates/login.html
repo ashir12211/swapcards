@@ -1,0 +1,226 @@
+<!-- {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+
+        /* Labels and Inputs */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Registration Form</h1>
+        
+        <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Register</button>
+</form>
+
+
+    <div>
+        {% for message in messages%}
+        <h3>{{message}}</h3>
+        {% endfor %}
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwapCards - Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #000000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #6a0dad;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .alternative-link {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .alternative-link a {
+            color: #6a0dad;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .messages {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .messages h3 {
+            color: #ff4500; /* Make the message noticeable */
+            font-size: 16px;
+        }
+
+        .messages h3.success {
+            color: #32cd32; /* Green for success */
+        }
+
+        .messages h3.error {
+            color: #ff4500; /* Red for error */
+        }
+    </style>
+    <script>
+        // Redirect to the home page after 2 seconds if there's a success message
+        window.addEventListener('DOMContentLoaded', () => {
+            const successMessage = document.querySelector('.messages h3.success');
+            if (successMessage) {
+                setTimeout(() => {
+                    window.location.href = '/'; // Redirect to home page
+                }, 2000);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">login</button>
+        </form>
+        <div class="alternative-link">
+            <p>Don't have an account? <a href="{% url 'register' %}">register</a></p>
+        </div>
+        <div class="messages">
+            {% for message in messages %}
+            <h3 class="{% if 'success' in message.tags %}success{% elif 'error' in message.tags %}error{% endif %}">
+                {{ message }}
+            </h3>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+

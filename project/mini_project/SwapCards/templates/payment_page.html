@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Payment Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1f1f1f, #121212);
+            color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 650px;
+            background: #1c1c1c;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .details p {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        .details p strong {
+            color: #e5c007;
+        }
+
+        .details p.sell-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .payment-options {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .payment-options label {
+            display: flex;
+            align-items: center;
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .payment-options label:hover {
+            background: #3a3a3a;
+        }
+
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .payment-details input,
+        .payment-details select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background: #222;
+            color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #6a0dad, #8a3dd7);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #501a84, #7b2ab8);
+        }
+
+        .success-message {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirm Your Payment</h1>
+        <form id="paymentForm" method="POST" action="{% url 'confirm_purchase' card.id %}">
+            {% csrf_token %}
+            <div class="details">
+                <p><strong>Gift Card Type:</strong> {{ card.giftcard_type }}</p>
+                <p><strong>Expiry Date:</strong> {{ card.expiry }}</p>
+                <p><strong>Card Balance:</strong> ₹{{ card.giftcard_balance }}</p>
+                <p class="sell-price"><strong>Selling Price (To Pay):</strong> ₹{{ card.selling_price }}</p>
+            </div>
+
+            <div class="payment-options">
+                <label>
+                    <input type="radio" name="payment_method" value="debit_card" onclick="showPaymentDetails('debit-card-details')" required>
+                    Debit Card
+                </label>
+                <label>
+                    <input type="radio" name="payment_method" value="upi" onclick="showPaymentDetails('upi-details')" required>
+                    UPI
+                </label>
+                <label>
+                    <input type="radio" name="payment_method" value="other" onclick="showPaymentDetails('other-details')" required>
+                    Other Payment Methods
+                </label>
+            </div>
+
+            <div id="debit-card-details" class="payment-details">
+                <input type="text" name="card_number" placeholder="Debit Card Number">
+                <input type="text" name="card_holder_name" placeholder="Cardholder Name">
+                <input type="text" name="expiry_date" placeholder="Expiry Date (MM/YY)">
+                <input type="password" name="cvv" placeholder="CVV">
+            </div>
+
+            <div id="upi-details" class="payment-details">
+                <input type="text" name="upi_id" placeholder="Enter UPI ID">
+            </div>
+
+            <div id="other-details" class="payment-details">
+                <select name="other_method">
+                    <option value="net_banking">Net Banking</option>
+                    <option value="wallet">Wallet (Paytm/PhonePe)</option>
+                </select>
+            </div>
+
+            <p class="success-message" id="successMessage">Purchase successful! Redirecting...</p>
+
+            <button type="submit" class="btn">Confirm Payment</button>
+        </form>
+    </div>
+
+    <script>
+        function showPaymentDetails(option) {
+            const details = document.querySelectorAll('.payment-details');
+            details.forEach(detail => {
+                detail.style.display = 'none';
+                detail.querySelectorAll('input, select').forEach(input => {
+                    input.required = false;
+                });
+            });
+
+            if (option) {
+                const selectedDetail = document.getElementById(option);
+                selectedDetail.style.display = 'block';
+                selectedDetail.querySelectorAll('input, select').forEach(input => {
+                    input.required = true;
+                });
+            }
+        }
+
+        const form = document.getElementById('paymentForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                form.submit();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

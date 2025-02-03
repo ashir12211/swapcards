@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Card History</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: "Arial", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .history-container {
+            background-color: #1e1e1e;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 28px;
+            color: #6a0dad;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+        }
+        p {
+            font-size: 18px;
+            margin: 12px 0;
+            line-height: 1.6;
+        }
+        .back-home-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #6a0dad;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-home-btn:hover {
+            background-color: #6a0dad;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <h1>Your Purchased Gift Cards</h1>
+        {% if purchased_cards %}
+            {% for card in purchased_cards %}
+                <p><strong>Gift Card:</strong> {{ card.giftcard_type }}</p>
+                <p><strong>Card Number:</strong> {{ card.card_number }}</p>
+                <p><strong>PIN:</strong> {{ card.pin }}</p>
+                <p><strong>Expiry:</strong> {{ card.expiry }}</p>
+                <p><strong>Balance:</strong> ₹{{ card.giftcard_balance }}</p>
+                <p><strong>Price Paid:</strong> ₹{{ card.selling_price }}</p>
+                <p><strong>Purchased At:</strong> {{ card.purchased_at }}</p>
+                <hr>
+            {% endfor %}
+        {% else %}
+            <p>No purchases found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Gift Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1c1c1c;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #6a0dad;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #1c1c1c;
+            color: #f5f5f5;
+        }
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #333;
+        }
+        table th {
+            background: #6a0dad;
+            color: #fff;
+        }
+        table tr:nth-child(even) {
+            background: #2a2a2a;
+        }
+        table tr:hover {
+            background: #333;
+        }
+        .message {
+            text-align: center;
+            color: #888;
+            margin: 20px 0;
+        }
+        .buy-btn {
+            padding: 8px 16px;
+            color: #fff;
+            background-color: #6a0dad;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .buy-btn:hover {
+            background-color: #501a84;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buy Gift Cards</h1>
+        {% if gift_cards %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Gift Card Type</th>
+                    <th>Expiry Date</th>
+                    <th>Balance</th>
+                    <th>Sell Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in gift_cards %}
+                <tr>
+                    <td>{{ card.giftcard_type }}</td>
+                    <td>{{ card.expiry }}</td>
+                    <td>{{ card.giftcard_balance }}</td>
+                    <td>{{ card.selling_price }}</td>
+                    <td>
+                        <form method="GET" action="{% url 'payment_page' card.id %}">
+                            <button type="submit" class="buy-btn">Buy</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="message">No active gift cards available at the moment.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
